@@ -6,7 +6,7 @@ import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import axios from "axios";
-
+import { BACKEND_URL } from "../utils/utils";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -32,7 +32,7 @@ function Home() {
 useEffect(() => {
   const fetchCourses = async () => {
     try {
-      const response = await axios.get(`http://localhost:4001/api/v1/course/courses`, {
+      const response = await axios.get(`${BACKEND_URL}/course/courses`, {
         withCredentials: true,
       });
       console.log(response.data.courses);
@@ -46,7 +46,7 @@ useEffect(() => {
   //logout
   const handleLogout = async () => {
     try {
-      const response = await axios.get(`http://localhost:4001/api/v1/user/logout`, {
+      const response = await axios.get(`${BACKEND_URL}/user/logout`, {
         withCredentials: true,
       });
       toast.success(response.data.message);

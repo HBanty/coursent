@@ -9,12 +9,15 @@ import { HiMenu, HiX } from "react-icons/hi"; // Icons for sidebar toggle
 import { Link, useNavigate } from "react-router-dom";
 
 
+import { BACKEND_URL } from "../utils/utils";
+
+
 function Purchases() {
   const [purchases, setPurchase] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to toggle sidebar
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
 
   console.log("purchase", purchases);
@@ -28,6 +31,9 @@ function Purchases() {
       setIsLoggedIn(false);
     }
   }, []);
+  if (!token) {
+    navigate("/login");
+  }
 
   //fetching courses
   useEffect(() => {
@@ -50,7 +56,7 @@ function Purchases() {
       try {
  
         const response = await axios.get(
-          `http://localhost:4001/api/v1/user/purchases`,
+          `${BACKEND_URL}/user/purchases`,
          
           {
             headers: {
@@ -73,12 +79,12 @@ function Purchases() {
   //logout
   const handleLogout = async () => {
     try {
-      const response = await axios.get(`http://localhost:4001/api/v1/user/logout`, {
+      const response = await axios.get(`${BACKEND_URL}/user/logout`, {
         withCredentials: true,
       });
       toast.success(response.data.message);
       localStorage.removeItem("user");
-      Navigate("/login");
+      navigate("/login");
       setIsLoggedIn(false);
     } catch (error) {
 

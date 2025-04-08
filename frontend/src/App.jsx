@@ -25,10 +25,16 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         
-          {/* outher routes */}
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/buy/:courseId" element={<Buy />} />
-          <Route path="/purchases" element={user?<Purchases /> : <Navigate to={"/login"}/> } />
+       {/* Other Routes */}
+       <Route path="/courses" element={<Courses />} />
+        <Route path="/buy/:courseId" element={<Buy />} />
+        <Route path="/purchases" element={<Purchases/>}
+        />
+{/*         you can use below one if required 
+ <Route
+          path="/purchases"
+          element={user ? <Purchases /> : <Navigate to={"/login"} />}
+        />*/}
 
           {/* Admin routes */}
           <Route path="/admin/login" element={<AdminLogin/>} />

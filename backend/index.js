@@ -12,74 +12,63 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 
-const app = express();
-const allowedOrigins = ['http://localhost:5173', 'https://coursent.vercel.app'];
-
-
 dotenv.config();
+const app = express();
+const port = process.env.PORT || 3000;
+const DB_URI = process.env.MONGO_URI;
+
+const allowedOrigins = ['http://localhost:5173', 'https://coursent.vercel.app'];
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp/" }));
+
 app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp/",
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-
-
-app.use(
-    cors({
-      origin: function (origin, callback) {
-        // allow requests with no origin like mobile apps or curl
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
-      credentials: true,
-      methods: ["GET", "POST", "PUT", "DELETE"],
-      allowedHeaders: ["Content-Type", "Authorization"],
-    })
-  );
-
-const port = process.env.PORT || 3000;
-const DB_URI = process.env.MONGO_URI;
-
-// Connect to MongoDB
-const connectDB = async () => {
-  try {
-    await mongoose.connect(DB_URI);
-    console.log("✅ Connected to MongoDB");
-  } catch (error) {
-    console.error("❌ MongoDB connection error:", error);
-    process.exit(1);
-  }
-};
-connectDB();
-
-// shows in brouser
+// shows in browser
 app.get("/", (req, res) => {
   res.send("Hello Master Bunty");
 });
 
-//define routes
+// Routes
 app.use("/api/v1/course", courseRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/order", orderRoute);
 
-app.listen(port, () => {
-  console.log(`🚀 Server is running on port ${port}`);
+// ✅ Connect to MongoDB first, then start server
+const startServer = async () => {
+  try {
+    await mongoose.connect(DB_URI);
+    console.log("✅ Connected to MongoDB");
 
-  // // Cloudinary Configuration code
+    cloudinary.config({
+      cloud_name: process.env.cloud_name,
+      api_key: process.env.api_key,
+      api_secret: process.env.api_secret,
+    });
 
-  cloudinary.config({
-    cloud_name: process.env.cloud_name,
-    api_key: process.env.api_key,
-    api_secret: process.env.api_secret,
-  });
-});
+    app.listen(port, () => {
+      console.log(`🚀 Server is running on port ${port}`);
+    });
+  } catch (error) {
+    console.error("❌ MongoDB connection error:", error);
+    process.exit(1);
+  }
+};
+
+startServer();

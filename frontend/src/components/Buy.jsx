@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
+import { BACKEND_URL } from "../utils/utils";
+
 
 function Buy() {
   const { courseId } = useParams();
@@ -33,7 +35,7 @@ function Buy() {
       try {
    
         const response = await axios.post(
-          `http://localhost:4001/api/v1/course/buy/${courseId}`,
+          `${BACKEND_URL}/course/buy/${courseId}`,
           {},
           {
             headers: {
@@ -134,7 +136,7 @@ function Buy() {
         status: paymentIntent.status,
       };
       console.log("Payment info: ", paymentInfo);
-      axios.post(`http://localhost:4001/api/v1/order`, paymentInfo,
+      axios.post(`${BACKEND_URL}/order`, paymentInfo,
         {
           headers: {
             Authorization: `Bearer ${token}`,

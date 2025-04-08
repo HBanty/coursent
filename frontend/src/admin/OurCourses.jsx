@@ -2,12 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-
+import { BACKEND_URL } from "../utils/utils";
 
 function OurCourses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
 
 
   const admin = JSON.parse(localStorage.getItem("admin"));
@@ -17,26 +17,23 @@ function OurCourses() {
     toast.error("Please login to admin");
     navigate("/admin/login");
   }
-  const navigate = useNavigate();
+
 
 
   //fetching courses
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get(`http://localhost:4001/api/v1/course/courses`,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${BACKEND_URL}/course/courses`, {
+          withCredentials: true,
+        });
         console.log(response.data.courses);
         setCourses(response.data.courses);
         setLoading(false);
       } catch (error) {
-        console.log('error in fetchCourse:>> ', error);
-
+        console.log("error in fetchCourses ", error);
       }
-    }
+    };
     fetchCourses();
   }, []);
 
@@ -45,7 +42,7 @@ function OurCourses() {
 const handleDelete = async (id) => {
   try {
     const response = await axios.delete(
-      `http://localhost:4001/api/v1/course/delete/${id}`,
+      `${BACKEND_URL}/course/delete/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -61,7 +58,7 @@ const handleDelete = async (id) => {
     toast.error(error.response.data.errors || "Error in deleting course");
   }
 };
-
+//loading
 if (loading) {
   return <p className="text-center text-gray-500">Loading...</p>;
 }
