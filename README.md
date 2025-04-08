@@ -23,4 +23,4 @@ Coursent is a full-stack course selling platform where users can explore and pur
 3. Run the project
 
 ## 📄 License
-MIT
+RCSTM
