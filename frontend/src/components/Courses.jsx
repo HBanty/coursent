@@ -133,7 +133,7 @@ function Courses() {
         </aside>
   
         {/* Main content */}
-        <main className="ml-0 md:ml-64 w-full bg-white p-10">
+        <main className="ml-0 md:ml-6 w-full bg-white p-10">
           <header className="flex justify-between items-center mb-10">
             <h1 className="text-xl font-bold">Courses</h1>
             <div className="flex items-center space-x-3">
