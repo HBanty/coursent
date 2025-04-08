@@ -6,7 +6,7 @@ import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import axios from "axios";
-import { BACKEND_URL } from '../utils/utils';
+
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";

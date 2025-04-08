@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import logo from "../../public/logo.webp";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { BACKEND_URL } from '../utils/utils';
 
 
 function Signup() {
@@ -12,39 +11,37 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [errorMessage, setErrorMessage]= useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
-  const handleSubmit =async  (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(firstName, lastName, email, password);
-  
+
     try {
-      const response= await axios.post(`http://localhost:4001/api/v1/user/signup`, {
-        firstName,
-        lastName,
-        email,
-        password,
-      },
+      const response = await axios.post(
+        `http://localhost:4001/api/v1/user/signup`,
+        {
+          firstName,
+          lastName,
+          email,
+          password,
+        },
         {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
-
         }
       );
-      console.log("signup succesfull",response.data);
+      console.log("signup succesfull", response.data);
       toast.success(response.data.message);
       navigate("/login");
     } catch (error) {
-      if(error.response){
-       
+      if (error.response) {
         setErrorMessage(error.response.data.errors || "Signup failed!!!");
       }
-      
-
     }
   };
 
@@ -148,9 +145,10 @@ function Signup() {
             </div>
             {errorMessage && (
               <div className="mb-4 text-red-500 text-center">
-                {errorMessage}</div>
+                {errorMessage}
+              </div>
             )}
-          
+
             <button
               type="submit"
               className="w-full bg-orange-500 hover:bg-blue-600 text-white py-3 px-6 rounded-md transition"

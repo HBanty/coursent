@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import logo from "../../public/logo.webp";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { BACKEND_URL } from "../utils/utils";
 
 function Dashboard() {
   

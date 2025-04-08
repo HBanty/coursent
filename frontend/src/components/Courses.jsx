@@ -9,8 +9,7 @@ import { IoLogIn, IoLogOut } from "react-icons/io5";
 import { FiSearch } from "react-icons/fi";
 import logo from "../../public/logo.webp";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
-import { BACKEND_URL } from '../utils/utils';
+import { Link} from "react-router-dom";
 
 function Courses() {
 
@@ -53,7 +52,7 @@ function Courses() {
   //logout
   const handleLogout = async () => {
     try {
-      const response = await axios.get(`${BACKEND_URL}/user/logout`, {
+      const response = await axios.get(`http://localhost:4001/api/v1/user/logout`, {
         withCredentials: true,
       });
       toast.success(response.data.message);

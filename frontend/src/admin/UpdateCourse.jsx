@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import { BACKEND_URL } from "../utils/utils";
 
 function UpdateCourse() {
   const { id } = useParams();
