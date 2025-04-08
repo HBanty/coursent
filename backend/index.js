@@ -13,6 +13,9 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 
 const app = express();
+const allowedOrigins = ['http://localhost:5173', 'https://coursent.vercel.app'];
+
+
 dotenv.config();
 
 // Middleware
@@ -25,14 +28,23 @@ app.use(
   })
 );
 
+
+
 app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+    cors({
+      origin: function (origin, callback) {
+        // allow requests with no origin like mobile apps or curl
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+    })
+  );
 
 const port = process.env.PORT || 3000;
 const DB_URI = process.env.MONGO_URI;
