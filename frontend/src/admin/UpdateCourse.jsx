@@ -19,7 +19,7 @@ function UpdateCourse() {
     const fetchCourseData = async () => {
       try {
         const { data } = await axios.get(
-          `${BACKEND_URL}/course/${id}`,
+          `http://localhost:4001/api/v1/course/${id}`,
           {
             withCredentials: true,
           }
@@ -69,7 +69,7 @@ function UpdateCourse() {
 
     try {
       const response = await axios.put(
-        `${BACKEND_URL} /course/update/${id}`,
+        `http://localhost:4001/api/v1 /course/update/${id}`,
         formData,
         {
           headers: {

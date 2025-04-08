@@ -21,7 +21,7 @@ function Dashboard() {
   const handleLogout = async () => {
     try {
       const response = await axios.get(
-        `${BACKEND_URL}/admin/logout`,
+        `http://localhost:4001/api/v1/admin/logout`,
         {
           withCredentials: true,
         }

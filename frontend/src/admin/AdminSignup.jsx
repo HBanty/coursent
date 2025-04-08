@@ -21,7 +21,7 @@ function AdminSignup() {
     console.log(firstName, lastName, email, password);
   
     try {
-      const response= await axios.post(`${BACKEND_URL}/admin/signup`, {
+      const response= await axios.post(`http://localhost:4001/api/v1/admin/signup`, {
         firstName,
         lastName,
         email,

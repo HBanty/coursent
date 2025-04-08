@@ -29,28 +29,24 @@ function Home() {
    },[]);
 
 //fetching courses
-   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/course/courses`,
-          {
-            withCredentials: true,
-          }
-        );
-        console.log(response.data.courses);
-        setCourses(response.data.courses);
-
-      } catch (error) {
-        console.log('error in fetchCourse:>> ', error);
-
-      }
+useEffect(() => {
+  const fetchCourses = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4001/api/v1/course/courses`, {
+        withCredentials: true,
+      });
+      console.log(response.data.courses);
+      setCourses(response.data.courses);
+    } catch (error) {
+      console.log("error in fetchCourses ", error);
     }
-    fetchCourses();
-  }, []);
+  };
+  fetchCourses();
+}, []);
   //logout
   const handleLogout = async () => {
     try {
-      const response = await axios.get(`${BACKEND_URL}/user/logout`, {
+      const response = await axios.get(`http://localhost:4001/api/v1/user/logout`, {
         withCredentials: true,
       });
       toast.success(response.data.message);

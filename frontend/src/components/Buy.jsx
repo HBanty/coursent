@@ -34,7 +34,7 @@ function Buy() {
       try {
    
         const response = await axios.post(
-          `${BACKEND_URL}/course/buy/${courseId}`,
+          `http://localhost:4001/api/v1/course/buy/${courseId}`,
           {},
           {
             headers: {
@@ -135,7 +135,7 @@ function Buy() {
         status: paymentIntent.status,
       };
       console.log("Payment info: ", paymentInfo);
-      axios.post(`${BACKEND_URL}/order`, paymentInfo,
+      axios.post(`http://localhost:4001/api/v1/order`, paymentInfo,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -24,7 +24,7 @@ function OurCourses() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get(`${BACKEND_URL}/course/courses`,
+        const response = await axios.get(`http://localhost:4001/api/v1/course/courses`,
           {
             withCredentials: true,
           }
@@ -45,7 +45,7 @@ function OurCourses() {
 const handleDelete = async (id) => {
   try {
     const response = await axios.delete(
-      `${BACKEND_URL}/course/delete/${id}`,
+      `http://localhost:4001/api/v1/course/delete/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

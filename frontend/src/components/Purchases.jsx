@@ -50,7 +50,7 @@ function Purchases() {
       try {
  
         const response = await axios.get(
-          `${BACKEND_URL}/user/purchases`,
+          `http://localhost:4001/api/v1/user/purchases`,
          
           {
             headers: {
@@ -73,7 +73,7 @@ function Purchases() {
   //logout
   const handleLogout = async () => {
     try {
-      const response = await axios.get(`${BACKEND_URL}/user/logout`, {
+      const response = await axios.get(`http://localhost:4001/api/v1/user/logout`, {
         withCredentials: true,
       });
       toast.success(response.data.message);

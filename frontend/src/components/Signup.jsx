@@ -21,7 +21,7 @@ function Signup() {
     console.log(firstName, lastName, email, password);
   
     try {
-      const response= await axios.post(`${BACKEND_URL}/user/signup`, {
+      const response= await axios.post(`http://localhost:4001/api/v1/user/signup`, {
         firstName,
         lastName,
         email,
