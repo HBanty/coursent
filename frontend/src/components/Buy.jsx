@@ -126,7 +126,8 @@ function Buy() {
 
     } else if (paymentIntent.status === "succeeded") {
       console.log("Payment succeeded: ", paymentIntent);
-      setCardError("your payment id: ", paymentIntent.id);
+      setCardError(`Your payment ID: ${paymentIntent.id}`);
+
       const paymentInfo = {
         email: user?.user?.email,
         userId: user.user._id,

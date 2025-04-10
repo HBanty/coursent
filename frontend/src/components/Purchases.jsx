@@ -24,17 +24,16 @@ function Purchases() {
 
   //token
   useEffect(() => {
-    const token = localStorage.getItem("user");
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
+    const userData = localStorage.getItem("user");
+  
+    if (!userData) {
       setIsLoggedIn(false);
+      navigate("/login");
+    } else {
+      setIsLoggedIn(true);
     }
   }, []);
-  if (!token) {
-    navigate("/login");
-  }
-
+  
   //fetching courses
   useEffect(() => {
     // Check if the user is logged in
