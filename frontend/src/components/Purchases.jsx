@@ -8,32 +8,30 @@ import { RiHome2Fill } from "react-icons/ri";
 import { HiMenu, HiX } from "react-icons/hi"; // Icons for sidebar toggle
 import { Link, useNavigate } from "react-router-dom";
 
-
 import { BACKEND_URL } from "../utils/utils";
-
 
 function Purchases() {
   const [purchases, setPurchase] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to toggle sidebar
-  const navigate = useNavigate(); 
-
+  const navigate = useNavigate();
 
   console.log("purchase", purchases);
 
   //token
   useEffect(() => {
-    const userData = localStorage.getItem("user");
-  
-    if (!userData) {
-      setIsLoggedIn(false);
-      navigate("/login");
-    } else {
+    const token = localStorage.getItem("user");
+    if (token) {
       setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
   }, []);
-  
+  if (!token) {
+    navigate("/login");
+  }
+
   //fetching courses
   useEffect(() => {
     // Check if the user is logged in
@@ -45,18 +43,15 @@ function Purchases() {
     const user = JSON.parse(localStorage.getItem("user"));
     const token = user.token;
 
-    
     const fetchPurchase = async () => {
-
       if (!token) {
         setErrorMessage("Please login to purchase the course");
         return;
       }
       try {
- 
         const response = await axios.get(
           `${BACKEND_URL}/user/purchases`,
-         
+
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -65,12 +60,8 @@ function Purchases() {
           }
         );
         setPurchase(response.data.courseData);
-
-
-
       } catch (error) {
-       setErrorMessage("Failed to fetch purchase data")
-
+        setErrorMessage("Failed to fetch purchase data");
       }
     };
     fetchPurchase();
@@ -86,13 +77,11 @@ function Purchases() {
       navigate("/login");
       setIsLoggedIn(false);
     } catch (error) {
-
       console.log("Error in Logout", error);
       toast.error(error.response.data.errors || "Error in Loggging out");
     }
-
   };
-// Toggle sidebar visibility
+  // Toggle sidebar visibility
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -207,7 +196,6 @@ function Purchases() {
       </div>
     </div>
   );
-
 }
 
-export default Purchases
+export default Purchases;
