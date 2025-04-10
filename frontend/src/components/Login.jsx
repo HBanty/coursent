@@ -68,7 +68,7 @@ function Login() {
               Signup
             </Link>
             <Link
-              to={"/admin/signup"}
+              to={"/courses"}
               className="bg-orange-500 p-1 text-sm md:text-md md:py-2 md:px-4 rounded-md"
             >
               Join now
