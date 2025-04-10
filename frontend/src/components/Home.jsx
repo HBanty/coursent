@@ -109,7 +109,7 @@ useEffect(() => {
         <header className='flex items-center justify-between p-6'>
           <div className='flex items-center space-x-2'>
             <img src={logo} alt="" className='w-10 h-10 rounded-full' />
-            <h1 className='text-2xl text-orange-500 font-bold'>CourSent</h1>
+            <h1 className='text-2xl text-orange-500 font-bold'>  Welcome to CourSent</h1>
           </div>
           <div className='space-x-4'>
             {isLoggedIn ? (
