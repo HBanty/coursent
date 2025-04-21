@@ -49,7 +49,7 @@ function Buy() {
         console.log("Purchase successful", response.data);
         setCourse(response.data.course);
         setClientSecret(response.data.clientSecret);
-        navigate("/purchases")
+    
         setLoading(false)
 
       } catch (error) {
