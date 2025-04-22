@@ -27,13 +27,13 @@ function App() {
         {/* Other Routes */}
         <Route path="/courses" element={<Courses />} />
         <Route path="/buy/:courseId" element={<Buy />} />
-        {/* <Route path="/purchases" element={<Purchases/>}
-        /> */}
-        you can use below one if required
+        <Route path="/purchases" element={<Purchases/>}
+        />
+        {/* you can use below one if required
         <Route
           path="/purchases"
           element={user ? <Purchases /> : <Navigate to={"/login"} />}
-        />
+        /> */}
         {/* Admin routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/signup" element={<AdminSignup />} />
