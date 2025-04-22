@@ -35,6 +35,7 @@ function Purchases() {
   if (!token) {
     navigate("/login");
   }
+  console.log("token is here")
 
   // Fetch purchases
   useEffect(() => {
