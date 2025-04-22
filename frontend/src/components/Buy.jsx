@@ -20,20 +20,20 @@ function Buy() {
 
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const token = user?.token;
+  const token = user?.token;  //using optional chaining to avoid crashing incase token is not there!!!
+
   const stripe = useStripe();
   const elements = useElements();
   const [cardError, setCardError] = useState("");
+  if (!token) {
+    navigate("/login");
+  }
+
 
 
   useEffect(() => {
     const fetchBuyCourseData = async () => {
-      if (!token) {
-        toast.error("Please login to purchase the course");
-        return;
-      }
       try {
-   
         const response = await axios.post(
           `${BACKEND_URL}/course/buy/${courseId}`,
           {},
@@ -41,33 +41,26 @@ function Buy() {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-            withCredentials: true,
+            withCredentials: true, // Include cookies if needed
           }
-        )
-
-
-        console.log("Purchase successful", response.data);
+        );
+        console.log(response.data);
         setCourse(response.data.course);
         setClientSecret(response.data.clientSecret);
-    
-        setLoading(false)
-
+        setLoading(false);
       } catch (error) {
-
-        setLoading(false)
+        setLoading(false);
         if (error?.response?.status === 400) {
-          setError(error.response.data.errors || "you have already  purchased this course!");
-          navigate("/purchases")
+          setError("you have already purchased this course");
+          navigate("/purchases");
+        } else {
+          setError(error?.response?.data?.errors);
         }
-        else {
-          setError(error?.response?.data?.errors || "Error in purchasing course");
-        }
-
       }
-    }
-    fetchBuyCourseData()
-
-  }, [courseId])
+    };
+    fetchBuyCourseData();
+  }, [courseId]);
+  
 
 
 
