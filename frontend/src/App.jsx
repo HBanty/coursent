@@ -27,7 +27,7 @@ function App() {
         {/* Other Routes */}
         <Route path="/courses" element={<Courses />} />
         <Route path="/buy/:courseId" element={<Buy />} />
-        <Route path="/purchases" element={<Purchases/>}
+        <Route path="/purchases" element={<Purchases />}
         />
         {/* you can use below one if required
         <Route
