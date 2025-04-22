@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -7,66 +8,53 @@ import { IoLogIn, IoLogOut } from "react-icons/io5";
 import { RiHome2Fill } from "react-icons/ri";
 import { HiMenu, HiX } from "react-icons/hi"; // Icons for sidebar toggle
 import { Link, useNavigate } from "react-router-dom";
-
 import { BACKEND_URL } from "../utils/utils";
 
 function Purchases() {
   const [purchases, setPurchase] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState(true);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to toggle sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar open state
+
   const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user"));
+  const token = user?.token; // using optional chaining to avoid app crashing
 
-  console.log("purchase", purchases);
+  console.log("purchases: ", purchases);
 
-  //token
+  // Token handling
   useEffect(() => {
-    const token = localStorage.getItem("user");
+ 
     if (token) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
   }, []);
+
   if (!token) {
     navigate("/login");
   }
 
-  //fetching courses
+  // Fetch purchases
   useEffect(() => {
-    // Check if the user is logged in
-    const userData = localStorage.getItem("user");
-    if (!userData) {
-      setErrorMessage("Please login to view purchases");
-      return;
-    }
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = user.token;
-
-    const fetchPurchase = async () => {
-      if (!token) {
-        setErrorMessage("Please login to purchase the course");
-        return;
-      }
+    const fetchPurchases = async () => {
       try {
-        const response = await axios.get(
-          `${BACKEND_URL}/user/purchases`,
-
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${BACKEND_URL}/user/purchases`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        });
         setPurchase(response.data.courseData);
       } catch (error) {
         setErrorMessage("Failed to fetch purchase data");
       }
     };
-    fetchPurchase();
+    fetchPurchases();
   }, []);
-  //logout
+
+  // Logout
   const handleLogout = async () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/user/logout`, {
@@ -77,10 +65,11 @@ function Purchases() {
       navigate("/login");
       setIsLoggedIn(false);
     } catch (error) {
-      console.log("Error in Logout", error);
-      toast.error(error.response.data.errors || "Error in Loggging out");
+      console.log("Error in logging out ", error);
+      toast.error(error.response.data.errors || "Error in logging out");
     }
   };
+
   // Toggle sidebar visibility
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
