@@ -20,9 +20,12 @@ function Buy() {
   const elements = useElements();
   const [cardError, setCardError] = useState("");
 
-  if (!token) {
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, [token, navigate]);
+  
 
   useEffect(() => {
     const fetchBuyCourseData = async () => {
@@ -47,12 +50,17 @@ function Buy() {
           setError("you have already purchased this course");
           navigate("/purchases");
         } else {
-          setError(error?.response?.data?.errors);
+          setError(
+            error?.response?.data?.message ||
+            error?.message ||
+            "Something went wrong"
+          );
+          
         }
       }
     };
     fetchBuyCourseData();
-  }, [courseId]);
+  }, [courseId, token, navigate]);
 
   const handlePurchase = async (event) => {
     event.preventDefault();
@@ -103,7 +111,8 @@ function Buy() {
       setCardError(confirmError.message);
     } else if (paymentIntent.status === "succeeded") {
       console.log("Payment succeeded: ", paymentIntent);
-      setCardError("your payment id: ", paymentIntent.id);
+      setCardError(`Your payment ID: ${paymentIntent.id}`);
+
       const paymentInfo = {
         email: user?.user?.email,
         userId: user.user._id,
